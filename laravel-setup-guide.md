@@ -6,16 +6,28 @@
     - if on heroku use psql
        database.php - set the default to psql (and do it in your local env)
        
-    $url = parse_url(getenv('DATABASE_URL'));
+    $host = '';
+$port = '';
+$database = '';
+$username = '';
+$pass = '';
 
+$url = parse_url(getenv('DATABASE_URL'));
+if (array_key_exists('host', $url)) {
+    $host = $url['host'];
+    $port = $url['port'];
+    $database = $url['database'];
+    $username = $url['username'];
+    $pass = $url['pass'];
+}
    'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', $url['host']),
-            'port' => env('DB_PORT', $url['port']),
-            'database' => env('DB_DATABASE', $url['database']),
-            'username' => env('DB_USERNAME', $url['username']),
-            'password' => env('DB_PASSWORD', $url['pass']),
+            'host' => env('DB_HOST', $host),
+            'port' => env('DB_PORT', $port),
+            'database' => env('DB_DATABASE', $database),
+            'username' => env('DB_USERNAME', $username),
+            'password' => env('DB_PASSWORD', $pass),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -29,6 +41,27 @@
 6.  php artisan make:model -m (The m will also make a migration)
     remeber to add $guarded = [] property and casts property 
     php artisan make:migration create_whatever_table (useful types - string, text, integer, bool)
+
+7. in your gitignore also ignore the /public/js and /public/css directories
+
+
+---- Setup Testing ---- 
+
+1. If running SQLite then you will need to do (ubuntu 16.04) 
+    sudo apt-get install php7.1-sqlite (or whatever version php)
+    sudo service apache2 restart
+
+2. In Database.php add this line 
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ],
+
+3. In your phpunit.xml add this 
+ <server name="DB_CONNECTION" value="testing"/>
+
+4. In vscode you can run tests from the command pallete. Just do phpunit and the extension should appear. 
 
 ---- Setup passport ---- 
 
