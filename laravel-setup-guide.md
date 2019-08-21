@@ -215,3 +215,24 @@ MAIL_PORT=2525
 MAIL_USERNAME=INSERT
 MAIL_PASSWORD=INSERT
 MAIL_ENCRYPTION=tls
+
+--- Tailwind ----
+
+1. Give some text the test class 'text-blue-700'
+
+1.`npm install tailwindcss --save`
+
+2. npx tailwind init
+
+3. In the scss file add these three lines 
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+4. In the webpack.mix.js add:
+mix.js('resources/js/app.js', 'public/js');
+mix.sass('resources/sass/app.scss', 'public/css')
+.options({
+    processCssUrls: false,
+    postCss: [tailwindcss('./tailwind.config.js')],
+});
