@@ -236,3 +236,28 @@ mix.sass('resources/sass/app.scss', 'public/css')
     processCssUrls: false,
     postCss: [tailwindcss('./tailwind.config.js')],
 });
+
+--- Vuex ----
+
+1. Make a store.js file - make it look like this
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+   state: {
+      sources: [],
+   },
+});
+
+export default store;
+
+2. In your app.js add this -
+import store from '@/js/store.js';
+
+const app = new Vue({
+    el: '#app',
+    store,
+
+3. You can acces the state in any component using this.$store.state.sources
