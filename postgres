@@ -1,0 +1,3 @@
+If you're having an issue how do you restart the postgres server?
+
+sudo service postgresql restart
